@@ -1,4 +1,4 @@
-const items = document.querySelector(".itmes");
+const items = document.querySelector(".items");
 const input = document.querySelector(".footer__input");
 const addBtn = document.querySelector(".footer__button");
 
@@ -13,7 +13,9 @@ function onAdd() {
   const item = createItem(text);
   // 3. Items 컨테이너안에 새로 만든 아이템을 추가한다
   items.appendChild(item);
-  // 4. 인풋을 초기화 한다.
+  // 4. 새로 추가된 아이템으로 스크롤링
+  items.scrollIntoView({ block: "center" });
+  // 5. 인풋을 초기화 한다.
   input.value = "";
   // .focus를 사용하면 자동으로 input 으로 돌아옴
   input.focus();
@@ -34,7 +36,7 @@ function createItem(text) {
   deleteBtn.setAttribute("class", "item__delete");
   deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
   deleteBtn.addEventListener("click", () => {
-    items.removeChild(itemrow);
+    items.removeChild(itemRow);
   });
 
   const itemDivider = document.createElement("div");
@@ -45,12 +47,15 @@ function createItem(text) {
 
   itemRow.appendChild(item);
   itemRow.appendChild(itemDivider);
+  return itemRow;
 }
 
 addBtn.addEventListener("click", () => {
   onAdd();
 });
 
-// input.addEventListener("keypress", (event) => {
-//   console.log("key");
-// });
+input.addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    onAdd();
+  }
+});
